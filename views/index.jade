@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  p 上传文件
+  form(action="/util/upload", enctype="multipart/form-data", method="POST")
+    input(type="file", name="uploadFile")
+    input(type="text", name="test")
+    input(type="submit")
+  script

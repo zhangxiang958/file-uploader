@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>uploader</title>
+</head>
+<body>
+  <form id="myform" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" multiple="multiple">
+    <input type="text" name="test" id="data">
+    <input type="text">
+    <input type="button" value="Submit" id="submit">
+  </form>
+
+  <script src="./javascripts/ajax.js"></script>
+  <script>
+    // request.get('http://localhost:3001', {
+    //   data: {
+    //     test: 1
+    //   },
+    //   withCredentials: true
+    // });
+
+    // request.post('http://localhost:3001', {
+    //   data: {
+    //     test: 1
+    //   }
+    // });
+  </script>
+  <script>
+    var submit = document.getElementById('submit');
+    var myform = document.getElementById('myform');
+    
+    submit.addEventListener('click', function(){
+      var formData = new FormData(myform);
+      // console.log(formData.get('file'));
+      // console.log(formData.get('file') instanceof File);
+      // console.log(document.getElementById('file').files);
+      // console.log(formData instanceof FormData);
+      // console.log(formData);
+      // console.log(formData.entries());
+      // for(var v of formData.entries()) {
+      //   console.log(v);
+      // }
+      request.post('http://localhost:3001/util/upload', {
+        data: formData,
+        type: 'multipart/form-data',
+        progress: function(event){
+          var progress = 0;
+          if(event.lengthComputable) {
+            progress = event.loaded / event.total;
+            console.log('update: ' + Math.round(progress * 100) + '%');
+          }
+          document.write('update: ' + Math.round(progress * 100) + '%\n');
+        }
+      })
+      .then((res) => {
+        // alert('上传成功!')
+      });
+    });
+  </script>
+</body>
+</html>
